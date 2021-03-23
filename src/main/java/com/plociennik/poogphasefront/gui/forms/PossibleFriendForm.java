@@ -31,7 +31,7 @@ public class PossibleFriendForm extends FormLayout {
         Button friendInviteButton = new Button("add friend");
         friendInviteButton.addClickListener(buttonClickEvent -> {
             try {
-                addFriend(sessionManager.getLoggedUser(), possibleFriend);
+                addFriend(sessionManager.getLoggedInUser(), possibleFriend);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -60,7 +60,7 @@ public class PossibleFriendForm extends FormLayout {
         quickMessageTextArea.setHeight("150px");
         Button sendMessageButton = new Button("send", buttonClickEvent -> {
             try {
-                chatMessageSender.sendMessage(sessionManager.getLoggedUser(), possibleFriend, quickMessageTextArea.getValue());
+                chatMessageSender.sendMessage(sessionManager.getLoggedInUser(), possibleFriend, quickMessageTextArea.getValue());
             } catch (IOException e) {
                 e.printStackTrace();
             }

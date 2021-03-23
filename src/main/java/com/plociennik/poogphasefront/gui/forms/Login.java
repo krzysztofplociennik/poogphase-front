@@ -25,8 +25,6 @@ public class Login extends VerticalLayout implements BeforeEnterObserver {
         setJustifyContentMode(JustifyContentMode.CENTER);
         setAlignItems(Alignment.CENTER);
 
-//        loginForm.setAction("login");
-
         add(new H1("Poogphase"), loginForm);
     }
 

@@ -60,13 +60,13 @@ public class Profile extends HorizontalLayout {
         infoLayout.add(new H5("This is what people here know about you"));
 
         TextField firstNameTextField = new TextField("Firstname");
-        firstNameTextField.setValue(sessionManager.getLoggedUser().getFirstName());
+        firstNameTextField.setValue(sessionManager.getLoggedInUser().getFirstName());
         firstNameTextField.setReadOnly(true);
         TextField lastNameTextField = new TextField("Lastname");
-        lastNameTextField.setValue(sessionManager.getLoggedUser().getLastName());
+        lastNameTextField.setValue(sessionManager.getLoggedInUser().getLastName());
         lastNameTextField.setReadOnly(true);
         TextField dateOfBirthTextField = new TextField("Date of birth");
-        dateOfBirthTextField.setValue(sessionManager.getLoggedUser().getDateOfBirth().toString());
+        dateOfBirthTextField.setValue(sessionManager.getLoggedInUser().getDateOfBirth().toString());
         dateOfBirthTextField.setReadOnly(true);
 
         infoLayout.add(firstNameTextField, lastNameTextField, dateOfBirthTextField);
@@ -82,7 +82,7 @@ public class Profile extends HorizontalLayout {
         secondPartOfProfilePageContent.addToPrimary(userPostsLayout);
 
         List<PostDto> reverseSortedUserPosts = apiClient.getPosts().stream()
-                .filter(postDto -> postDto.getAuthorId() == sessionManager.getLoggedUser().getId())
+                .filter(postDto -> postDto.getAuthorId() == sessionManager.getLoggedInUser().getId())
                 .sorted(Comparator.comparing(PostDto::getDateTime).reversed())
                 .collect(Collectors.toList());
 

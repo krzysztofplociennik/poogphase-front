@@ -48,7 +48,7 @@ public class Friends extends HorizontalLayout {
         friendsPageContentLayout.addToPrimary(friendsLayout);
         friendsLayout.add(new H2("Your friends"));
 
-        for (UserDto user : friendsManager.searchFriends(sessionManager.getLoggedUser())) {
+        for (UserDto user : friendsManager.searchFriends(sessionManager.getLoggedInUser())) {
             friendsLayout.add(new FriendListForm(this.apiClient, user));
         }
 
@@ -56,7 +56,7 @@ public class Friends extends HorizontalLayout {
         friendsPageContentLayout.addToSecondary(maybeFriendsLayout);
         maybeFriendsLayout.add(new H2("Do you know these people?"));
 
-        for (UserDto user : friendsManager.searchPossibleFriends(sessionManager.getLoggedUser())) {
+        for (UserDto user : friendsManager.searchPossibleFriends(sessionManager.getLoggedInUser())) {
             maybeFriendsLayout.add(new PossibleFriendForm(this.apiClient, user));
         }
     }

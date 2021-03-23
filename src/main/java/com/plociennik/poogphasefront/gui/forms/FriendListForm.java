@@ -22,7 +22,7 @@ public class FriendListForm extends FormLayout {
         Paragraph username = new Paragraph(userDto.getUsername());
         Button unfriendButton = new Button("unfriend", buttonClickEvent -> {
             try {
-                unfriendUser(sessionManager.getLoggedUser(), userDto);
+                unfriendUser(sessionManager.getLoggedInUser(), userDto);
             } catch (IOException e) {
                 e.printStackTrace();
             }

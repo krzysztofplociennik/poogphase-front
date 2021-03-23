@@ -76,7 +76,7 @@ public class Chat extends HorizontalLayout {
         searchUserLayout.setAlignItems(Alignment.CENTER);
         pickUserLayout.add(pickUserText, searchUserLayout, friendPickText);
 
-        for (UserDto friend : friendsManager.searchFriends(sessionManager.getLoggedUser())) {
+        for (UserDto friend : friendsManager.searchFriends(sessionManager.getLoggedInUser())) {
             pickUserLayout.add(new Button(friend.getUsername(), buttonClickEvent -> chatWindowView(friend)));
         }
 
@@ -149,7 +149,7 @@ public class Chat extends HorizontalLayout {
         VerticalLayout layout = new VerticalLayout();
         List<UserDto> searchedUserList = apiClient.getUsers().stream()
                 .filter(userDto -> userDto.getUsername().contains(searchedPhrase))
-                .filter(userDto -> !userDto.getUsername().equals(sessionManager.getLoggedUser().getUsername()))
+                .filter(userDto -> !userDto.getUsername().equals(sessionManager.getLoggedInUser().getUsername()))
                 .collect(Collectors.toList());
 
         if (searchedUserList.size() != 0) {

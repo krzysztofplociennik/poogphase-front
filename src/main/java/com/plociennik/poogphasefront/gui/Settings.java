@@ -2,6 +2,7 @@ package com.plociennik.poogphasefront.gui;
 
 import com.plociennik.poogphasefront.client.ApiClient;
 import com.plociennik.poogphasefront.logic.SessionManager;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -30,29 +31,33 @@ public class Settings extends HorizontalLayout {
     }
 
     public void setupContentView() {
+        HorizontalLayout contentLayout = new HorizontalLayout();
         VerticalLayout credentialsInfoLayout = new VerticalLayout();
+        Anchor logoutAnchor = new Anchor("/logout", "logout");
         TextField usernameTextField = new TextField("Username");
-        usernameTextField.setValue(sessionManager.getLoggedUser().getUsername());
+        usernameTextField.setValue(sessionManager.getLoggedInUser().getUsername());
         usernameTextField.setReadOnly(true);
         PasswordField passwordField = new PasswordField("Password");
-        passwordField.setValue(sessionManager.getLoggedUser().getPassword());
+        passwordField.setValue(sessionManager.getLoggedInUser().getPassword());
         passwordField.setReadOnly(true);
         EmailField mailField = new EmailField("Mail");
-        mailField.setValue(sessionManager.getLoggedUser().getMail());
+        mailField.setValue(sessionManager.getLoggedInUser().getMail());
         mailField.setReadOnly(true);
         TextField firstNameTextField = new TextField("Firstname");
-        firstNameTextField.setValue(sessionManager.getLoggedUser().getFirstName());
+        firstNameTextField.setValue(sessionManager.getLoggedInUser().getFirstName());
         firstNameTextField.setReadOnly(true);
         TextField lastNameTextField = new TextField("Lastname");
-        lastNameTextField.setValue(sessionManager.getLoggedUser().getLastName());
+        lastNameTextField.setValue(sessionManager.getLoggedInUser().getLastName());
         lastNameTextField.setReadOnly(true);
         TextField dateOfBirthTextField = new TextField("Date of birth");
-        dateOfBirthTextField.setValue(sessionManager.getLoggedUser().getDateOfBirth().toString());
+        dateOfBirthTextField.setValue(sessionManager.getLoggedInUser().getDateOfBirth().toString());
         dateOfBirthTextField.setReadOnly(true);
 
         credentialsInfoLayout.add(new H5("Here is your account info"), usernameTextField, passwordField,
                 mailField, firstNameTextField, lastNameTextField, dateOfBirthTextField);
-        generalView.addToSecondary(credentialsInfoLayout);
+        contentLayout.add(credentialsInfoLayout, logoutAnchor);
+        generalView.addToSecondary(contentLayout);
+
         add(generalView);
     }
 }
