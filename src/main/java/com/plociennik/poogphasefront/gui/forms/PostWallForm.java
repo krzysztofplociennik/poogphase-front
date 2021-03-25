@@ -1,12 +1,11 @@
 package com.plociennik.poogphasefront.gui.forms;
 
 import com.plociennik.poogphasefront.client.ApiClient;
+import com.plociennik.poogphasefront.logic.SessionManager;
 import com.plociennik.poogphasefront.logic.TimePeriod;
 import com.plociennik.poogphasefront.model.CommentDto;
 import com.plociennik.poogphasefront.model.PostDto;
-import com.plociennik.poogphasefront.model.UserDto;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -20,10 +19,12 @@ import java.time.LocalDateTime;
 public class PostWallForm extends FormLayout {
 
     private ApiClient apiClient;
+    private SessionManager sessionManager;
 
     @Autowired
     public PostWallForm(ApiClient apiClient, PostDto post, SplitLayout sidePage, Button cancelButton) {
         this.apiClient = apiClient;
+        this.sessionManager = new SessionManager(this.apiClient);
         VerticalLayout postLayout = new VerticalLayout();
         HorizontalLayout horizontalLayoutForComments = new HorizontalLayout();
         Paragraph details = new Paragraph(
@@ -40,14 +41,11 @@ public class PostWallForm extends FormLayout {
         Button commentButton = new Button("comment");
 
         HorizontalLayout commentHorizontal = new HorizontalLayout();
-        ComboBox<UserDto> userPick = new ComboBox<>();
-        userPick.setItems(apiClient.getUsers());
-        userPick.setItemLabelGenerator(UserDto::getUsername);
-        commentHorizontal.add(commentButton, userPick);
+        commentHorizontal.add(commentButton);
 
         commentButton.addClickListener(buttonClickEvent -> {
             try {
-                createComment(userPick.getValue().getId(), post.getId(), commentPostTextArea.getValue());
+                createComment(sessionManager.getLoggedInUser().getId(), post.getId(), commentPostTextArea.getValue());
             } catch (IOException e) {
                 e.printStackTrace();
             }

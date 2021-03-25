@@ -10,9 +10,7 @@ import java.util.stream.Stream;
 
 public final class SecurityUtils {
 
-    private SecurityUtils() {
-        // Util methods only
-    }
+    private SecurityUtils() { }
 
     static boolean isFrameworkInternalRequest(HttpServletRequest request) {
         final String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);

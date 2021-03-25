@@ -2,6 +2,7 @@ package com.plociennik.poogphasefront.gui;
 
 import com.plociennik.poogphasefront.client.ApiClient;
 import com.plociennik.poogphasefront.gui.forms.PostWallForm;
+import com.plociennik.poogphasefront.logic.SessionManager;
 import com.plociennik.poogphasefront.model.PostDto;
 import com.plociennik.poogphasefront.model.UserDto;
 import com.vaadin.flow.component.button.Button;
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
-@Route("dash")
+@Route("")
 @PageTitle("Dashboard")
 @UIScope
 public class Dash extends HorizontalLayout {
@@ -30,10 +31,12 @@ public class Dash extends HorizontalLayout {
     private SplitLayout firstPartOfContentLayout;
     private SplitLayout secondPartOfContentLayout;
     private ApiClient apiClient;
+    private SessionManager sessionManager;
 
     @Autowired
     public Dash(ApiClient apiClient) {
         this.apiClient = apiClient;
+        this.sessionManager = new SessionManager(this.apiClient);
         setSizeFull();
         setupContentView();
 
@@ -58,10 +61,6 @@ public class Dash extends HorizontalLayout {
         firstPartOfContentLayout.setPrimaryStyle("minWidth", "300px");
         firstPartOfContentLayout.setPrimaryStyle("maxWidth", "300px");
 
-        ComboBox<UserDto> userPick = new ComboBox<>("user");
-        userPick.setItems(apiClient.getUsers());
-        userPick.setItemLabelGenerator(UserDto::getUsername);
-
         TextArea whatDoYouThinkTextArea = new TextArea("Want to share something?");
         whatDoYouThinkTextArea.setWidth("250px");
         whatDoYouThinkTextArea.setHeight("150px");
@@ -69,7 +68,7 @@ public class Dash extends HorizontalLayout {
         Button createPostButton = new Button("post!");
         createPostButton.addClickListener(buttonClickEvent -> {
             PostDto post = new PostDto();
-            post.setAuthorId(userPick.getValue().getId());
+            post.setAuthorId(sessionManager.getLoggedInUser().getId());
             post.setDateTime(LocalDateTime.now());
             post.setContent(whatDoYouThinkTextArea.getValue());
             try {
@@ -79,7 +78,7 @@ public class Dash extends HorizontalLayout {
             }
         });
         VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.add(userPick, whatDoYouThinkTextArea, createPostButton);
+        verticalLayout.add(whatDoYouThinkTextArea, createPostButton);
         firstPartOfContentLayout.addToPrimary(verticalLayout);
     }
 

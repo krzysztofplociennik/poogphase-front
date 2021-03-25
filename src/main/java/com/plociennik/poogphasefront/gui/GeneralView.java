@@ -56,7 +56,7 @@ public class GeneralView extends SplitLayout {
         navbarLayout.add(mainPageButton, postsButton, friendsButton, chatButton, profileButton, settingsButton);
         top.addToSecondary(navbarLayout);
 
-        mainPageButton.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("dash"));
+        mainPageButton.addClickListener(buttonClickEvent -> UI.getCurrent().navigate(""));
         postsButton.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("posts"));
         friendsButton.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("friends"));
         chatButton.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("chat"));

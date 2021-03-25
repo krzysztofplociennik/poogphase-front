@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ConfigureUIServiceInitListener implements VaadinServiceInitListener {
-
     @Override
     public void serviceInit(ServiceInitEvent event) {
         event.getSource().addUIInitListener(uiEvent -> {

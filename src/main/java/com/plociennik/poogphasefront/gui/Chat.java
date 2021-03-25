@@ -108,16 +108,11 @@ public class Chat extends HorizontalLayout {
 
         chatPageContentLayout.addToSecondary(chatWindowLayout);
 
-        UserDto loggedUser = apiClient.getUsers().stream()
-                .filter(userDto -> userDto.getUsername().equals("dummy"))
-                .findAny()
-                .get();
-
-        List<ChatMessageDto> chatLog = loggedUser.getMessages().stream()
+        List<ChatMessageDto> chatLog = sessionManager.getLoggedInUser().getMessages().stream()
                 .filter(chatMessageDto -> chatMessageDto.getRecipient().equals(selectedUser.getUsername()))
                 .collect(Collectors.toList());
         chatLog.addAll(selectedUser.getMessages().stream()
-                .filter(chatMessageDto -> chatMessageDto.getRecipient().equals(loggedUser.getUsername()))
+                .filter(chatMessageDto -> chatMessageDto.getRecipient().equals(sessionManager.getLoggedInUser().getUsername()))
                 .collect(Collectors.toList()));
 
         chatLog = chatLog.stream().sorted(Comparator.comparing(ChatMessageDto::getDateTime))
@@ -135,7 +130,7 @@ public class Chat extends HorizontalLayout {
         sendMessageButton.addClickShortcut(Key.ENTER);
         sendMessageButton.addClickListener(buttonClickEvent -> {
             try {
-                chatMessageSender.sendMessage(loggedUser, selectedUser, writeMessageTextField.getValue());
+                chatMessageSender.sendMessage(sessionManager.getLoggedInUser(), selectedUser, writeMessageTextField.getValue());
             } catch (IOException e) {
                 e.printStackTrace();
             }
