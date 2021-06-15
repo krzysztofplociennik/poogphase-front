@@ -1,31 +1,40 @@
 package com.plociennik.poogphasefront.gui.forms;
 
+import com.plociennik.poogphasefront.client.ApiClient;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.spring.annotation.UIScope;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Route("login")
 @PageTitle("Login")
 @UIScope
-public class Login extends VerticalLayout implements BeforeEnterObserver {
-
+public class Login extends HorizontalLayout implements BeforeEnterObserver {
     private LoginForm loginForm;
+    private ApiClient apiClient;
 
-    public Login() {
+    @Autowired
+    public Login(ApiClient apiClient) {
+        this.apiClient = apiClient;
         this.loginForm = new LoginForm();
+
+        VerticalLayout loginLayout = new VerticalLayout();
         addClassName("login-view");
         loginForm.setAction("login");
         setSizeFull();
 
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        setAlignItems(Alignment.CENTER);
+        loginLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+        loginLayout.setAlignItems(Alignment.CENTER);
 
-        add(new H1("Poogphase"), loginForm);
+        Button registerButton = new Button("register new account", buttonClickEvent -> showRegistrationForm());
+        registerButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        loginLayout.add(new H1("Poogphase"), loginForm, registerButton);
+        add(loginLayout);
     }
 
     @Override
@@ -36,5 +45,9 @@ public class Login extends VerticalLayout implements BeforeEnterObserver {
                 .containsKey("error")) {
             loginForm.setError(true);
         }
+    }
+
+    public void showRegistrationForm() {
+        add(new RegistrationForm(this.apiClient));
     }
 }
