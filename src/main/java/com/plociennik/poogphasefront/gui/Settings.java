@@ -43,18 +43,12 @@ public class Settings extends HorizontalLayout {
         EmailField mailField = new EmailField("Mail");
         mailField.setValue(sessionManager.getLoggedInUser().getMail());
         mailField.setReadOnly(true);
-        TextField firstNameTextField = new TextField("Firstname");
-        firstNameTextField.setValue(sessionManager.getLoggedInUser().getFirstName());
-        firstNameTextField.setReadOnly(true);
-        TextField lastNameTextField = new TextField("Lastname");
-        lastNameTextField.setValue(sessionManager.getLoggedInUser().getLastName());
-        lastNameTextField.setReadOnly(true);
         TextField dateOfBirthTextField = new TextField("Date of birth");
         dateOfBirthTextField.setValue(sessionManager.getLoggedInUser().getDateOfBirth().toString());
         dateOfBirthTextField.setReadOnly(true);
 
         credentialsInfoLayout.add(new H5("Here is your account info"), usernameTextField, passwordField,
-                mailField, firstNameTextField, lastNameTextField, dateOfBirthTextField);
+                mailField, dateOfBirthTextField);
         contentLayout.add(credentialsInfoLayout, logoutAnchor);
         generalView.addToSecondary(contentLayout);
 

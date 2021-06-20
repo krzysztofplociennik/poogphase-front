@@ -20,8 +20,6 @@ public class RegistrationForm extends VerticalLayout {
     private PasswordField passwordField;
     private PasswordField confirmPasswordField;
     private EmailField emailField;
-    private TextField firstNameTextField;
-    private TextField lastNameTextField;
     private DatePicker datePicker;
 
     @Autowired
@@ -32,8 +30,6 @@ public class RegistrationForm extends VerticalLayout {
         passwordField = new PasswordField("Password");
         confirmPasswordField = new PasswordField("Confirm password");
         emailField = new EmailField("Email");
-        firstNameTextField = new TextField("Firstname");
-        lastNameTextField = new TextField("Lastname");
         datePicker = new DatePicker("Date of birth");
 
         Button registerButton = new Button("register", buttonClickEvent -> {
@@ -41,8 +37,6 @@ public class RegistrationForm extends VerticalLayout {
             unregisteredUser.setUsername(usernameTextField.getValue());
             unregisteredUser.setPassword(passwordField.getValue());
             unregisteredUser.setMail(emailField.getValue());
-            unregisteredUser.setFirstName(firstNameTextField.getValue());
-            unregisteredUser.setLastName(lastNameTextField.getValue());
             try {
                 unregisteredUser.setDateOfBirth(LocalDate.of(
                         datePicker.getValue().getYear(),
@@ -67,8 +61,7 @@ public class RegistrationForm extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
         setAlignItems(Alignment.CENTER);
 
-        add(usernameTextField, passwordField, confirmPasswordField, emailField,
-                firstNameTextField, lastNameTextField, datePicker, buttonsLayout);
+        add(usernameTextField, passwordField, confirmPasswordField, emailField, datePicker, buttonsLayout);
     }
 
     public boolean checkIfUsernameIsPresent(String searchedUsername) {
@@ -86,8 +79,6 @@ public class RegistrationForm extends VerticalLayout {
                 !passwordField.getValue().equals("") &&
                 !confirmPasswordField.getValue().equals("") &&
                 !emailField.getValue().equals("") &&
-                !firstNameTextField.getValue().equals("") &&
-                !lastNameTextField.getValue().equals("") &&
                 datePicker.getValue() != null;
     }
 

@@ -64,8 +64,6 @@ public class JsonObjectMapper {
         user.put("username", userDto.getUsername());
         user.put("password", userDto.getPassword());
         user.put("mail", userDto.getMail());
-        user.put("firstName", userDto.getFirstName());
-        user.put("lastName", userDto.getLastName());
         user.put("dateOfBirth", userDto.getDateOfBirth().toString());
         ArrayNode friendsNode = user.putArray("friends");
         for (String friend : userDto.getFriends()) {

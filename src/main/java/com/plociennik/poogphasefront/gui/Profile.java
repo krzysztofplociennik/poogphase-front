@@ -59,17 +59,11 @@ public class Profile extends HorizontalLayout {
 
         infoLayout.add(new H5("This is what people here know about you"));
 
-        TextField firstNameTextField = new TextField("Firstname");
-        firstNameTextField.setValue(sessionManager.getLoggedInUser().getFirstName());
-        firstNameTextField.setReadOnly(true);
-        TextField lastNameTextField = new TextField("Lastname");
-        lastNameTextField.setValue(sessionManager.getLoggedInUser().getLastName());
-        lastNameTextField.setReadOnly(true);
         TextField dateOfBirthTextField = new TextField("Date of birth");
         dateOfBirthTextField.setValue(sessionManager.getLoggedInUser().getDateOfBirth().toString());
         dateOfBirthTextField.setReadOnly(true);
 
-        infoLayout.add(firstNameTextField, lastNameTextField, dateOfBirthTextField);
+        infoLayout.add(dateOfBirthTextField);
 
         firstPartOfProfilePageContent.addToPrimary(infoLayout);
     }
