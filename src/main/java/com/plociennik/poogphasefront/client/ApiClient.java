@@ -140,6 +140,10 @@ public class ApiClient {
         }
     }
 
+    public void createUser(UserDto userDto) {
+
+    }
+
     public void updateUser(UserDto userDto) throws IOException {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         try {

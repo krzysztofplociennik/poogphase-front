@@ -1,6 +1,7 @@
 package com.plociennik.poogphasefront.gui.forms;
 
 import com.plociennik.poogphasefront.client.ApiClient;
+import com.plociennik.poogphasefront.logic.RegistrationValidator;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
@@ -17,11 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class Login extends HorizontalLayout implements BeforeEnterObserver {
     private LoginForm loginForm;
     private ApiClient apiClient;
+    private RegistrationValidator registrationValidator;
 
     @Autowired
-    public Login(ApiClient apiClient) {
-        this.apiClient = apiClient;
+    public Login(ApiClient apiClient, RegistrationValidator registrationValidator) {
         this.loginForm = new LoginForm();
+        this.apiClient = apiClient;
+        this.registrationValidator = registrationValidator;
 
         VerticalLayout loginLayout = new VerticalLayout();
         addClassName("login-view");
@@ -48,6 +51,6 @@ public class Login extends HorizontalLayout implements BeforeEnterObserver {
     }
 
     public void showRegistrationForm() {
-        add(new RegistrationForm(this.apiClient));
+        add(new RegistrationForm(this.apiClient, this.registrationValidator));
     }
 }
