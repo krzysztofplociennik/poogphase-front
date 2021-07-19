@@ -140,8 +140,18 @@ public class ApiClient {
         }
     }
 
-    public void createUser(UserDto userDto) {
-
+    public void createUser(UserDto userDto) throws IOException {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        try {
+            HttpPost request = new HttpPost(baseEndpoint + "/user/createUser");
+            StringEntity params = new StringEntity(objectMapper.mapUserDtoToJson(userDto));
+            request.addHeader("content-type", "application/json");
+            request.setEntity(params);
+            httpClient.execute(request);
+        } catch (Exception ex) {
+        } finally {
+            httpClient.close();
+        }
     }
 
     public void updateUser(UserDto userDto) throws IOException {

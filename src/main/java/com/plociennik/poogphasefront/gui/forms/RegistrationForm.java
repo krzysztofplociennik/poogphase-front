@@ -13,6 +13,8 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class RegistrationForm extends VerticalLayout {
@@ -50,7 +52,7 @@ public class RegistrationForm extends VerticalLayout {
             }
             try {
                 registerUser(unregisteredUser);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         });
@@ -67,37 +69,7 @@ public class RegistrationForm extends VerticalLayout {
         add(usernameTextField, passwordField, confirmPasswordField, emailField, datePicker, buttonsLayout);
     }
 
-//    public boolean checkIfUsernameIsPresent(String searchedUsername) {
-//        return apiClient.getUsers().stream()
-//                .anyMatch(userDto -> userDto.getUsername().equals(searchedUsername));
-//    }
-//
-//    public boolean checkIfEmailIsPresent(String email) {
-//        return apiClient.getUsers().stream()
-//                .anyMatch(userDto -> userDto.getMail().equals(email));
-//    }
-//
-//    public boolean checkIfFieldsHaveBeenFilled() {
-//        return  !usernameTextField.getValue().equals("") &&
-//                !passwordField.getValue().equals("") &&
-//                !confirmPasswordField.getValue().equals("") &&
-//                !emailField.getValue().equals("");
-//    }
-
-    public void registerUser(UserDto userToBeRegistered) throws InterruptedException {
-//        if (!checkIfFieldsHaveBeenFilled()) {
-//            Notification.show("Not all fields have been filled!");
-//        } else if (checkIfEmailIsPresent(userToBeRegistered.getMail())) {
-//            Notification.show("The mail has already been registered!");
-//        } else if (checkIfUsernameIsPresent(userToBeRegistered.getUsername())) {
-//            Notification.show("The username has already been registered!");
-//        } else if (!passwordField.getValue().equals(confirmPasswordField.getValue())) {
-//            Notification.show("The passwords don't match!");
-//        } else {
-//            Notification.show("The user: " + userToBeRegistered.getUsername() + " has been registered successfully! You can reload this page in order to log in",
-//                    4000,
-//                    Notification.Position.BOTTOM_CENTER);
-//        }
+    public void registerUser(UserDto userToBeRegistered) throws InterruptedException, IOException {
         registrationValidator.validateUser(userToBeRegistered, confirmPasswordField.getValue());
         apiClient.createUser(userToBeRegistered);
     }
