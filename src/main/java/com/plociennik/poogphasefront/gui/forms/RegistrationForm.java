@@ -13,7 +13,6 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -70,7 +69,8 @@ public class RegistrationForm extends VerticalLayout {
     }
 
     public void registerUser(UserDto userToBeRegistered) throws InterruptedException, IOException {
-        registrationValidator.validateUser(userToBeRegistered, confirmPasswordField.getValue());
-        apiClient.createUser(userToBeRegistered);
+        if (registrationValidator.validateUser(userToBeRegistered, confirmPasswordField.getValue())) {
+//            apiClient.createUser(userToBeRegistered);
+        }
     }
 }
