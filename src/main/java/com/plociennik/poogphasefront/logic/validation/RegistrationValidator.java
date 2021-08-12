@@ -11,20 +11,22 @@ import java.time.Period;
 public class RegistrationValidator {
     private ApiClient apiClient;
     private UsernameValidator usernameValidator;
+    private PasswordValidator passwordValidator;
 
-    public RegistrationValidator(ApiClient apiClient, UsernameValidator usernameValidator) {
+    public RegistrationValidator(ApiClient apiClient, UsernameValidator usernameValidator, PasswordValidator passwordValidator) {
         this.apiClient = apiClient;
         this.usernameValidator = usernameValidator;
+        this.passwordValidator = passwordValidator;
     }
 
     public boolean validateUser(UserDto userToBeRegistered, String confirmPassword) {
         boolean validationStatus = false;
         if (!haveFieldsBeenFilled(userToBeRegistered.getUsername(), userToBeRegistered.getPassword(), confirmPassword, userToBeRegistered.getMail())) {
             Notification.show("Not all fields have been filled!");
-        } else if (!usernameValidator.validate(userToBeRegistered.getUsername())) {
+        } else if (!usernameValidator.validateUsername(userToBeRegistered.getUsername())) {
 
-        } else if (!doPasswordsMatch(userToBeRegistered.getPassword(), confirmPassword)) {
-            Notification.show("The passwords don't match!");
+        } else if (!passwordValidator.validatePassword(userToBeRegistered.getPassword(), confirmPassword)) {
+
         } else if (!isEmailAvailable(userToBeRegistered.getMail())) {
             Notification.show("The mail has already been registered!");
         } else if (isUserTooYoung(userToBeRegistered.getDateOfBirth())) {

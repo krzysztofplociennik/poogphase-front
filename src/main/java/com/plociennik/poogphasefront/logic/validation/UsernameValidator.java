@@ -13,8 +13,8 @@ public class UsernameValidator {
         this.apiClient = apiClient;
     }
 
-    public boolean validate(String username) {
-        return isUsernameAvailable(username) && customValidation(username);
+    public boolean validateUsername(String username) {
+        return isUsernameAvailable(username) && customUsernameValidation(username);
     }
 
     public boolean isUsernameAvailable(String username) {
@@ -28,9 +28,9 @@ public class UsernameValidator {
         }
     }
 
-    public boolean customValidation(String username) {
+    public boolean customUsernameValidation(String username) {
         if (username == null) {
-            Notification.show("Username is empty!");
+            Notification.show("The username is empty!");
             return false;
         } else {
             String regex = "^[A-Za-z]\\w{4,29}$";
