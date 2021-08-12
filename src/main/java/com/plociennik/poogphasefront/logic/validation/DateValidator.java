@@ -3,7 +3,6 @@ package com.plociennik.poogphasefront.logic.validation;
 import com.plociennik.poogphasefront.client.ApiClient;
 import com.vaadin.flow.component.notification.Notification;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.Period;
 

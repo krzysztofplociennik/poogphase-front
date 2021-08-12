@@ -6,7 +6,6 @@ import com.plociennik.poogphasefront.model.UserDto;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -46,9 +45,7 @@ public class RegistrationForm extends VerticalLayout {
                         datePicker.getValue().getYear(),
                         datePicker.getValue().getMonthValue(),
                         datePicker.getValue().getDayOfMonth()));
-            } catch (NullPointerException e) {
-                Notification.show("There's no date!");
-            }
+            } catch (NullPointerException e) {}
             try {
                 registerUser(unregisteredUser);
             } catch (InterruptedException | IOException e) {
@@ -70,7 +67,7 @@ public class RegistrationForm extends VerticalLayout {
 
     public void registerUser(UserDto userToBeRegistered) throws InterruptedException, IOException {
         if (registrationValidator.validateUser(userToBeRegistered, confirmPasswordField.getValue())) {
-//            apiClient.createUser(userToBeRegistered);
+            apiClient.createUser(userToBeRegistered);
         }
     }
 }

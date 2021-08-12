@@ -4,8 +4,6 @@ import com.plociennik.poogphasefront.client.ApiClient;
 import com.plociennik.poogphasefront.model.UserDto;
 import com.vaadin.flow.component.notification.Notification;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
-import java.time.Period;
 
 @Service
 public class RegistrationValidator {
@@ -28,58 +26,31 @@ public class RegistrationValidator {
     }
 
     public boolean validateUser(UserDto userToBeRegistered, String confirmPassword) {
-        boolean validationStatus = false;
-        if (!haveFieldsBeenFilled(userToBeRegistered.getUsername(), userToBeRegistered.getPassword(), confirmPassword, userToBeRegistered.getMail())) {
-            Notification.show("Not all fields have been filled!");
-        } else if (!usernameValidator.validateUsername(userToBeRegistered.getUsername())) {
-
-        } else if (!passwordValidator.validatePassword(userToBeRegistered.getPassword(), confirmPassword)) {
-
-        } else if (!mailValidator.validateMail(userToBeRegistered.getMail())) {
-
-        } else if (!dateValidator.validateDate(userToBeRegistered.getDateOfBirth())) {
-
-        } else {
+        if (haveFieldsBeenFilled(userToBeRegistered.getUsername(), userToBeRegistered.getPassword(), confirmPassword, userToBeRegistered.getMail()) &&
+                usernameValidator.validateUsername(userToBeRegistered.getUsername()) &&
+                passwordValidator.validatePassword(userToBeRegistered.getPassword(), confirmPassword) &&
+                mailValidator.validateMail(userToBeRegistered.getMail()) &&
+                dateValidator.validateDate(userToBeRegistered.getDateOfBirth())) {
             Notification.show("The user: " + userToBeRegistered.getUsername() + " has been registered successfully! You can reload this page in order to log in",
                     4000,
                     Notification.Position.BOTTOM_CENTER);
-            validationStatus = true;
+            return true;
+        } else {
+            Notification.show("Unsuccessful registration!");
+            return false;
         }
-        return validationStatus;
     }
 
     public boolean haveFieldsBeenFilled(String username, String password, String confirmPassword, String mail) {
-        return !username.equals("") &&
+        boolean status = !username.equals("") &&
                 !password.equals("") &&
                 !confirmPassword.equals("") &&
                 !mail.equals("");
+        if (status) {
+            return true;
+        } else {
+            Notification.show("Not all fields have been filled!");
+            return false;
+        }
     }
-
-    public boolean isUsernameAvailable(String searchedUsername) {
-        return apiClient.getUsers().stream()
-                .noneMatch(userDto -> userDto.getUsername().equals(searchedUsername));
-    }
-
-    public boolean doPasswordsMatch(String password, String confirmPassword) {
-        return password.equals(confirmPassword);
-    }
-
-    public boolean isEmailAvailable(String email) {
-        return apiClient.getUsers().stream()
-                .noneMatch(userDto -> userDto.getMail().equals(email));
-    }
-
-    public boolean isUserTooYoung(LocalDate date) {
-        return Period.between(date, LocalDate.now()).getYears() <= 13 && Period.between(date, LocalDate.now()).getYears() >= 0;
-    }
-
-    public boolean isUserTooOld(LocalDate date) {
-        return Period.between(date, LocalDate.now()).getYears() >= 150;
-    }
-
-    public boolean isUserFromTheFuture(LocalDate date) {
-        return Period.between(date, LocalDate.now()).getYears() < 0;
-    }
-
-
 }
