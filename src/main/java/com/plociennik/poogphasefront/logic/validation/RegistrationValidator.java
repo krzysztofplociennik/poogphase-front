@@ -13,15 +13,18 @@ public class RegistrationValidator {
     private UsernameValidator usernameValidator;
     private PasswordValidator passwordValidator;
     private MailValidator mailValidator;
+    private DateValidator dateValidator;
 
     public RegistrationValidator(ApiClient apiClient,
                                  UsernameValidator usernameValidator,
                                  PasswordValidator passwordValidator,
-                                 MailValidator mailValidator) {
+                                 MailValidator mailValidator,
+                                 DateValidator dateValidator) {
         this.apiClient = apiClient;
         this.usernameValidator = usernameValidator;
         this.passwordValidator = passwordValidator;
         this.mailValidator = mailValidator;
+        this.dateValidator = dateValidator;
     }
 
     public boolean validateUser(UserDto userToBeRegistered, String confirmPassword) {
@@ -34,12 +37,8 @@ public class RegistrationValidator {
 
         } else if (!mailValidator.validateMail(userToBeRegistered.getMail())) {
 
-        } else if (isUserTooYoung(userToBeRegistered.getDateOfBirth())) {
-            Notification.show("The user is too young!");
-        } else if (isUserTooOld(userToBeRegistered.getDateOfBirth())) {
-            Notification.show("The user is too old!");
-        } else if (isUserFromTheFuture(userToBeRegistered.getDateOfBirth())) {
-            Notification.show("This is a wrong date!");
+        } else if (!dateValidator.validateDate(userToBeRegistered.getDateOfBirth())) {
+
         } else {
             Notification.show("The user: " + userToBeRegistered.getUsername() + " has been registered successfully! You can reload this page in order to log in",
                     4000,
@@ -75,7 +74,7 @@ public class RegistrationValidator {
     }
 
     public boolean isUserTooOld(LocalDate date) {
-        return Period.between(date, LocalDate.now()).getYears() >= 110;
+        return Period.between(date, LocalDate.now()).getYears() >= 150;
     }
 
     public boolean isUserFromTheFuture(LocalDate date) {
