@@ -1,7 +1,7 @@
 package com.plociennik.poogphasefront.gui.forms;
 
 import com.plociennik.poogphasefront.client.ApiClient;
-import com.plociennik.poogphasefront.logic.RegistrationValidator;
+import com.plociennik.poogphasefront.logic.validation.RegistrationValidator;
 import com.plociennik.poogphasefront.model.UserDto;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;

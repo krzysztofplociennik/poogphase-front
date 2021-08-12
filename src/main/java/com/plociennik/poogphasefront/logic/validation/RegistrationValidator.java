@@ -1,4 +1,4 @@
-package com.plociennik.poogphasefront.logic;
+package com.plociennik.poogphasefront.logic.validation;
 
 import com.plociennik.poogphasefront.client.ApiClient;
 import com.plociennik.poogphasefront.model.UserDto;
@@ -10,17 +10,19 @@ import java.time.Period;
 @Service
 public class RegistrationValidator {
     private ApiClient apiClient;
+    private UsernameValidator usernameValidator;
 
-    public RegistrationValidator(ApiClient apiClient) {
+    public RegistrationValidator(ApiClient apiClient, UsernameValidator usernameValidator) {
         this.apiClient = apiClient;
+        this.usernameValidator = usernameValidator;
     }
 
     public boolean validateUser(UserDto userToBeRegistered, String confirmPassword) {
         boolean validationStatus = false;
         if (!haveFieldsBeenFilled(userToBeRegistered.getUsername(), userToBeRegistered.getPassword(), confirmPassword, userToBeRegistered.getMail())) {
             Notification.show("Not all fields have been filled!");
-        } else if (!isUsernameAvailable(userToBeRegistered.getUsername())) {
-            Notification.show("The username has already been registered!");
+        } else if (!usernameValidator.validate(userToBeRegistered.getUsername())) {
+
         } else if (!doPasswordsMatch(userToBeRegistered.getPassword(), confirmPassword)) {
             Notification.show("The passwords don't match!");
         } else if (!isEmailAvailable(userToBeRegistered.getMail())) {
