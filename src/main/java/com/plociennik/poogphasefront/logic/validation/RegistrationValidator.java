@@ -12,11 +12,16 @@ public class RegistrationValidator {
     private ApiClient apiClient;
     private UsernameValidator usernameValidator;
     private PasswordValidator passwordValidator;
+    private MailValidator mailValidator;
 
-    public RegistrationValidator(ApiClient apiClient, UsernameValidator usernameValidator, PasswordValidator passwordValidator) {
+    public RegistrationValidator(ApiClient apiClient,
+                                 UsernameValidator usernameValidator,
+                                 PasswordValidator passwordValidator,
+                                 MailValidator mailValidator) {
         this.apiClient = apiClient;
         this.usernameValidator = usernameValidator;
         this.passwordValidator = passwordValidator;
+        this.mailValidator = mailValidator;
     }
 
     public boolean validateUser(UserDto userToBeRegistered, String confirmPassword) {
@@ -27,8 +32,8 @@ public class RegistrationValidator {
 
         } else if (!passwordValidator.validatePassword(userToBeRegistered.getPassword(), confirmPassword)) {
 
-        } else if (!isEmailAvailable(userToBeRegistered.getMail())) {
-            Notification.show("The mail has already been registered!");
+        } else if (!mailValidator.validateMail(userToBeRegistered.getMail())) {
+
         } else if (isUserTooYoung(userToBeRegistered.getDateOfBirth())) {
             Notification.show("The user is too young!");
         } else if (isUserTooOld(userToBeRegistered.getDateOfBirth())) {
